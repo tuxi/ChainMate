@@ -8,23 +8,29 @@
 
 /* Begin PBXBuildFile section */
 		D037B2BE2E0D241700D23846 /* ChainMateApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D037B2BD2E0D241700D23846 /* ChainMateApp.swift */; };
-		D037B2C02E0D241700D23846 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D037B2BF2E0D241700D23846 /* ContentView.swift */; };
 		D037B2C22E0D241900D23846 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D037B2C12E0D241900D23846 /* Assets.xcassets */; };
 		D037B2C52E0D241900D23846 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D037B2C42E0D241900D23846 /* Preview Assets.xcassets */; };
-		D037B2CC2E0D246600D23846 /* WalletListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D037B2CB2E0D246600D23846 /* WalletListView.swift */; };
-		D037B2CE2E0D247A00D23846 /* Wallet.swift in Sources */ = {isa = PBXBuildFile; fileRef = D037B2CD2E0D247A00D23846 /* Wallet.swift */; };
-		D037B2D02E0D25FA00D23846 /* WalletDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D037B2CF2E0D25FA00D23846 /* WalletDetailView.swift */; };
+		D037B2D92E0D2CA800D23846 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D037B2D22E0D2CA700D23846 /* ContentView.swift */; };
+		D037B2DA2E0D2CA800D23846 /* WalletDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D037B2D62E0D2CA700D23846 /* WalletDetailView.swift */; };
+		D037B2DB2E0D2CA800D23846 /* WalletListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D037B2D72E0D2CA700D23846 /* WalletListView.swift */; };
+		D037B2DC2E0D2CA800D23846 /* Wallet.swift in Sources */ = {isa = PBXBuildFile; fileRef = D037B2D82E0D2CA700D23846 /* Wallet.swift */; };
+		D037B2DE2E0D2D0100D23846 /* ContentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D037B2DD2E0D2D0100D23846 /* ContentViewModel.swift */; };
+		D037B2E02E0D2D3900D23846 /* Tabs.swift in Sources */ = {isa = PBXBuildFile; fileRef = D037B2DF2E0D2D3900D23846 /* Tabs.swift */; };
+		D037B2E32E0D31C500D23846 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D037B2E22E0D31C500D23846 /* SettingsView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		D037B2BA2E0D241700D23846 /* ChainMate.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ChainMate.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D037B2BD2E0D241700D23846 /* ChainMateApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChainMateApp.swift; sourceTree = "<group>"; };
-		D037B2BF2E0D241700D23846 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		D037B2C12E0D241900D23846 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D037B2C42E0D241900D23846 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		D037B2CB2E0D246600D23846 /* WalletListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletListView.swift; sourceTree = "<group>"; };
-		D037B2CD2E0D247A00D23846 /* Wallet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Wallet.swift; sourceTree = "<group>"; };
-		D037B2CF2E0D25FA00D23846 /* WalletDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletDetailView.swift; sourceTree = "<group>"; };
+		D037B2D22E0D2CA700D23846 /* ContentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		D037B2D62E0D2CA700D23846 /* WalletDetailView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WalletDetailView.swift; sourceTree = "<group>"; };
+		D037B2D72E0D2CA700D23846 /* WalletListView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WalletListView.swift; sourceTree = "<group>"; };
+		D037B2D82E0D2CA700D23846 /* Wallet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Wallet.swift; sourceTree = "<group>"; };
+		D037B2DD2E0D2D0100D23846 /* ContentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentViewModel.swift; sourceTree = "<group>"; };
+		D037B2DF2E0D2D3900D23846 /* Tabs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tabs.swift; sourceTree = "<group>"; };
+		D037B2E22E0D31C500D23846 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -57,13 +63,12 @@
 		D037B2BC2E0D241700D23846 /* ChainMate */ = {
 			isa = PBXGroup;
 			children = (
+				D037B2D12E0D2CA700D23846 /* App */,
+				D037B2D32E0D2CA700D23846 /* Common */,
+				D037B2D42E0D2CA700D23846 /* Moudles */,
 				D037B2BD2E0D241700D23846 /* ChainMateApp.swift */,
-				D037B2BF2E0D241700D23846 /* ContentView.swift */,
 				D037B2C12E0D241900D23846 /* Assets.xcassets */,
 				D037B2C32E0D241900D23846 /* Preview Content */,
-				D037B2CB2E0D246600D23846 /* WalletListView.swift */,
-				D037B2CD2E0D247A00D23846 /* Wallet.swift */,
-				D037B2CF2E0D25FA00D23846 /* WalletDetailView.swift */,
 			);
 			path = ChainMate;
 			sourceTree = "<group>";
@@ -74,6 +79,50 @@
 				D037B2C42E0D241900D23846 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		D037B2D12E0D2CA700D23846 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				D037B2D22E0D2CA700D23846 /* ContentView.swift */,
+				D037B2DD2E0D2D0100D23846 /* ContentViewModel.swift */,
+				D037B2DF2E0D2D3900D23846 /* Tabs.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		D037B2D32E0D2CA700D23846 /* Common */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Common;
+			sourceTree = "<group>";
+		};
+		D037B2D42E0D2CA700D23846 /* Moudles */ = {
+			isa = PBXGroup;
+			children = (
+				D037B2E12E0D31AC00D23846 /* Settings */,
+				D037B2D52E0D2CA700D23846 /* Wallets */,
+			);
+			path = Moudles;
+			sourceTree = "<group>";
+		};
+		D037B2D52E0D2CA700D23846 /* Wallets */ = {
+			isa = PBXGroup;
+			children = (
+				D037B2D62E0D2CA700D23846 /* WalletDetailView.swift */,
+				D037B2D72E0D2CA700D23846 /* WalletListView.swift */,
+				D037B2D82E0D2CA700D23846 /* Wallet.swift */,
+			);
+			path = Wallets;
+			sourceTree = "<group>";
+		};
+		D037B2E12E0D31AC00D23846 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				D037B2E22E0D31C500D23846 /* SettingsView.swift */,
+			);
+			path = Settings;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -146,11 +195,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D037B2CE2E0D247A00D23846 /* Wallet.swift in Sources */,
-				D037B2D02E0D25FA00D23846 /* WalletDetailView.swift in Sources */,
-				D037B2C02E0D241700D23846 /* ContentView.swift in Sources */,
-				D037B2CC2E0D246600D23846 /* WalletListView.swift in Sources */,
+				D037B2E02E0D2D3900D23846 /* Tabs.swift in Sources */,
+				D037B2E32E0D31C500D23846 /* SettingsView.swift in Sources */,
+				D037B2DC2E0D2CA800D23846 /* Wallet.swift in Sources */,
+				D037B2D92E0D2CA800D23846 /* ContentView.swift in Sources */,
+				D037B2DE2E0D2D0100D23846 /* ContentViewModel.swift in Sources */,
 				D037B2BE2E0D241700D23846 /* ChainMateApp.swift in Sources */,
+				D037B2DA2E0D2CA800D23846 /* WalletDetailView.swift in Sources */,
+				D037B2DB2E0D2CA800D23846 /* WalletListView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
