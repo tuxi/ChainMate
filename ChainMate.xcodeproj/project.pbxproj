@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D034B1202E0D89B400E2943A /* RouterPath.swift in Sources */ = {isa = PBXBuildFile; fileRef = D034B11F2E0D89B400E2943A /* RouterPath.swift */; };
+		D034B1222E0D8F7C00E2943A /* AppRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D034B1212E0D8F7C00E2943A /* AppRouter.swift */; };
+		D034B1242E0D92E800E2943A /* WalletRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D034B1232E0D92E800E2943A /* WalletRowView.swift */; };
+		D034B1262E0E67F500E2943A /* WalletListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D034B1252E0E67F500E2943A /* WalletListViewModel.swift */; };
+		D034B1282E0E6E5900E2943A /* AddWalletView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D034B1272E0E6E5900E2943A /* AddWalletView.swift */; };
 		D037B2BE2E0D241700D23846 /* ChainMateApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D037B2BD2E0D241700D23846 /* ChainMateApp.swift */; };
 		D037B2C22E0D241900D23846 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D037B2C12E0D241900D23846 /* Assets.xcassets */; };
 		D037B2C52E0D241900D23846 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D037B2C42E0D241900D23846 /* Preview Assets.xcassets */; };
@@ -20,6 +25,11 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		D034B11F2E0D89B400E2943A /* RouterPath.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouterPath.swift; sourceTree = "<group>"; };
+		D034B1212E0D8F7C00E2943A /* AppRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppRouter.swift; sourceTree = "<group>"; };
+		D034B1232E0D92E800E2943A /* WalletRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletRowView.swift; sourceTree = "<group>"; };
+		D034B1252E0E67F500E2943A /* WalletListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletListViewModel.swift; sourceTree = "<group>"; };
+		D034B1272E0E6E5900E2943A /* AddWalletView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddWalletView.swift; sourceTree = "<group>"; };
 		D037B2BA2E0D241700D23846 /* ChainMate.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ChainMate.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D037B2BD2E0D241700D23846 /* ChainMateApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChainMateApp.swift; sourceTree = "<group>"; };
 		D037B2C12E0D241900D23846 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -94,6 +104,8 @@
 		D037B2D32E0D2CA700D23846 /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				D034B11F2E0D89B400E2943A /* RouterPath.swift */,
+				D034B1212E0D8F7C00E2943A /* AppRouter.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -113,6 +125,9 @@
 				D037B2D62E0D2CA700D23846 /* WalletDetailView.swift */,
 				D037B2D72E0D2CA700D23846 /* WalletListView.swift */,
 				D037B2D82E0D2CA700D23846 /* Wallet.swift */,
+				D034B1232E0D92E800E2943A /* WalletRowView.swift */,
+				D034B1252E0E67F500E2943A /* WalletListViewModel.swift */,
+				D034B1272E0E6E5900E2943A /* AddWalletView.swift */,
 			);
 			path = Wallets;
 			sourceTree = "<group>";
@@ -195,14 +210,19 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D034B1242E0D92E800E2943A /* WalletRowView.swift in Sources */,
 				D037B2E02E0D2D3900D23846 /* Tabs.swift in Sources */,
 				D037B2E32E0D31C500D23846 /* SettingsView.swift in Sources */,
 				D037B2DC2E0D2CA800D23846 /* Wallet.swift in Sources */,
 				D037B2D92E0D2CA800D23846 /* ContentView.swift in Sources */,
+				D034B1262E0E67F500E2943A /* WalletListViewModel.swift in Sources */,
 				D037B2DE2E0D2D0100D23846 /* ContentViewModel.swift in Sources */,
 				D037B2BE2E0D241700D23846 /* ChainMateApp.swift in Sources */,
+				D034B1202E0D89B400E2943A /* RouterPath.swift in Sources */,
 				D037B2DA2E0D2CA800D23846 /* WalletDetailView.swift in Sources */,
+				D034B1222E0D8F7C00E2943A /* AppRouter.swift in Sources */,
 				D037B2DB2E0D2CA800D23846 /* WalletListView.swift in Sources */,
+				D034B1282E0E6E5900E2943A /* AddWalletView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

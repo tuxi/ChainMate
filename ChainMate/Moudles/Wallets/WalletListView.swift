@@ -8,31 +8,32 @@
 import SwiftUI
 
 struct WalletListView: View {
-    // 测试数据
-    @State private var wallets = [
-        Wallet(name: "Main Wallet", address: "0xAbc123..."),
-        Wallet(name: "DeFi Wallet", address: "0xDef456..."),
-    ]
+    
+    @StateObject var model = WalletListViewModel()
+    
+    @StateObject private var routerPath = RouterPath()
+    @State private var showingAddWalletSheet = false
     
     var body: some View {
-        NavigationView {
-            List(wallets) { wallet in
-                NavigationLink(destination: WalletDetailView(wallet: wallet)) {
-                    VStack(alignment: .leading) {
-                        Text(wallet.name)
-                            .font(.headline)
-                        Text(wallet.address)
-                            .font(.subheadline)
-                            .foregroundColor(.gray)
-                    }
+        NavigationStack(path: $routerPath.path) {
+            List(model.wallets) { wallet in
+                NavigationLink(value: RouterPath.Destination.walletDetail(wallet)) {
+                    WalletRowView(wallet: wallet)
                 }
             }
+            .withAppRouter()
+            .sheet(isPresented: $showingAddWalletSheet, content: {
+                AddWalletView(wallets: $model.wallets)
+            })
             .navigationTitle("Wallets")
             .toolbar {
-                Button(action: {
-                    // 这里可以添加添加钱包逻辑
-                }) {
-                    Image(systemName: "plus")
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button(action: {
+                        // 这里可以添加添加钱包逻辑
+                        showingAddWalletSheet = true
+                    }) {
+                        Image(systemName: "plus")
+                    }
                 }
             }
         }

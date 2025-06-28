@@ -7,8 +7,10 @@
 
 import Foundation
 
-struct Wallet: Identifiable {
+struct Wallet: Identifiable,Hashable {
     let id = UUID()
     let name: String
-    let address: String
+    var address: String
+    // 备注名，默认无
+    var remarks: String?
 }
