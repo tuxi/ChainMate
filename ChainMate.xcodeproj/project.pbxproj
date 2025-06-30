@@ -22,6 +22,10 @@
 		D037B2DE2E0D2D0100D23846 /* ContentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D037B2DD2E0D2D0100D23846 /* ContentViewModel.swift */; };
 		D037B2E02E0D2D3900D23846 /* Tabs.swift in Sources */ = {isa = PBXBuildFile; fileRef = D037B2DF2E0D2D3900D23846 /* Tabs.swift */; };
 		D037B2E32E0D31C500D23846 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D037B2E22E0D31C500D23846 /* SettingsView.swift */; };
+		D0E2844D2E1178F50061DCAD /* BlockchainAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0E2844C2E1178F50061DCAD /* BlockchainAPI.swift */; };
+		D0E2844F2E117E260061DCAD /* WalletDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0E2844E2E117E260061DCAD /* WalletDetailViewModel.swift */; };
+		D0E284522E125AC80061DCAD /* api.key in Resources */ = {isa = PBXBuildFile; fileRef = D0E284512E125AC80061DCAD /* api.key */; };
+		D0E284552E12CE080061DCAD /* AlertToast in Frameworks */ = {isa = PBXBuildFile; productRef = D0E284542E12CE080061DCAD /* AlertToast */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -41,6 +45,9 @@
 		D037B2DD2E0D2D0100D23846 /* ContentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentViewModel.swift; sourceTree = "<group>"; };
 		D037B2DF2E0D2D3900D23846 /* Tabs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tabs.swift; sourceTree = "<group>"; };
 		D037B2E22E0D31C500D23846 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		D0E2844C2E1178F50061DCAD /* BlockchainAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockchainAPI.swift; sourceTree = "<group>"; };
+		D0E2844E2E117E260061DCAD /* WalletDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletDetailViewModel.swift; sourceTree = "<group>"; };
+		D0E284512E125AC80061DCAD /* api.key */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = api.key; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -48,6 +55,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D0E284552E12CE080061DCAD /* AlertToast in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -73,6 +81,7 @@
 		D037B2BC2E0D241700D23846 /* ChainMate */ = {
 			isa = PBXGroup;
 			children = (
+				D0E284502E125AC80061DCAD /* Resources */,
 				D037B2D12E0D2CA700D23846 /* App */,
 				D037B2D32E0D2CA700D23846 /* Common */,
 				D037B2D42E0D2CA700D23846 /* Moudles */,
@@ -106,6 +115,7 @@
 			children = (
 				D034B11F2E0D89B400E2943A /* RouterPath.swift */,
 				D034B1212E0D8F7C00E2943A /* AppRouter.swift */,
+				D0E2844C2E1178F50061DCAD /* BlockchainAPI.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -128,6 +138,7 @@
 				D034B1232E0D92E800E2943A /* WalletRowView.swift */,
 				D034B1252E0E67F500E2943A /* WalletListViewModel.swift */,
 				D034B1272E0E6E5900E2943A /* AddWalletView.swift */,
+				D0E2844E2E117E260061DCAD /* WalletDetailViewModel.swift */,
 			);
 			path = Wallets;
 			sourceTree = "<group>";
@@ -138,6 +149,14 @@
 				D037B2E22E0D31C500D23846 /* SettingsView.swift */,
 			);
 			path = Settings;
+			sourceTree = "<group>";
+		};
+		D0E284502E125AC80061DCAD /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				D0E284512E125AC80061DCAD /* api.key */,
+			);
+			path = Resources;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -156,6 +175,9 @@
 			dependencies = (
 			);
 			name = ChainMate;
+			packageProductDependencies = (
+				D0E284542E12CE080061DCAD /* AlertToast */,
+			);
 			productName = ChainMate;
 			productReference = D037B2BA2E0D241700D23846 /* ChainMate.app */;
 			productType = "com.apple.product-type.application";
@@ -184,6 +206,9 @@
 				Base,
 			);
 			mainGroup = D037B2B12E0D241700D23846;
+			packageReferences = (
+				D0E284532E12CE080061DCAD /* XCRemoteSwiftPackageReference "AlertToast" */,
+			);
 			productRefGroup = D037B2BB2E0D241700D23846 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -198,6 +223,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D0E284522E125AC80061DCAD /* api.key in Resources */,
 				D037B2C52E0D241900D23846 /* Preview Assets.xcassets in Resources */,
 				D037B2C22E0D241900D23846 /* Assets.xcassets in Resources */,
 			);
@@ -210,6 +236,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D0E2844D2E1178F50061DCAD /* BlockchainAPI.swift in Sources */,
+				D0E2844F2E117E260061DCAD /* WalletDetailViewModel.swift in Sources */,
 				D034B1242E0D92E800E2943A /* WalletRowView.swift in Sources */,
 				D037B2E02E0D2D3900D23846 /* Tabs.swift in Sources */,
 				D037B2E32E0D31C500D23846 /* SettingsView.swift in Sources */,
@@ -428,6 +456,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		D0E284532E12CE080061DCAD /* XCRemoteSwiftPackageReference "AlertToast" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/elai950/AlertToast.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.3.9;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		D0E284542E12CE080061DCAD /* AlertToast */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D0E284532E12CE080061DCAD /* XCRemoteSwiftPackageReference "AlertToast" */;
+			productName = AlertToast;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = D037B2B22E0D241700D23846 /* Project object */;
 }

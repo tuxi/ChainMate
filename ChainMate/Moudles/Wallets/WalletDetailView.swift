@@ -6,10 +6,14 @@
 //
 
 import SwiftUI
+import AlertToast
 
 struct WalletDetailView: View {
     
     let wallet: Wallet
+    @State var isShowPasteSuss = false
+    
+    @StateObject private var model = WalletDetailViewModel()
     
     var body: some View {
         ScrollView {
@@ -26,6 +30,7 @@ struct WalletDetailView: View {
                             
                         Button(action: {
                             UIPasteboard.general.string = wallet.address
+                            isShowPasteSuss = true
                         }) {
                             Image(systemName: "doc.on.doc")
                         }
@@ -46,7 +51,15 @@ struct WalletDetailView: View {
                 
                 Divider()
             }
+            .padding()
         }
+        .toast(isPresenting: $isShowPasteSuss, alert: {
+            AlertToast(displayMode: .alert, type: .regular, title: "已复制")
+        })
+        .onAppear {
+            model.load(address: wallet.address)
+        }
+        .navigationTitle("钱包详情")
     }
     
     func shortAddress(_ address: String) -> String {
