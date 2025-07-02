@@ -6,57 +6,126 @@
 //
 
 import Foundation
+import Alamofire
 
 class BlockchainAPI {
     static let shared = BlockchainAPI()
     private var apiKey: String = ""
     
-    init() {
+    var isInvaldApiKey: Bool {
         guard let apiKeyPath = Bundle.main.path(forResource: "api", ofType: "key") else {
-            return
+            return false
         }
         do {
-            let text = try String(contentsOf: URL(filePath: apiKeyPath), encoding: .utf8)
+            var text = try String(contentsOf: URL(filePath: apiKeyPath), encoding: .utf8)
+            if text.hasSuffix("\n") {
+                text.removeLast()
+            }
             self.apiKey = text
+            return true
         } catch {
             print("Load apiKey error: \(error.localizedDescription)")
+            return false
         }
     }
     
-    func fetchTokenBalances(address: String, completion: @escaping ([TokenBalance]) -> ()) {
-        guard let url = URL(string: "https://api.covalenthq.com/v1/1/address/\(address)/balances_v2/?key=\(apiKey)") else {
-            completion([])
-            return
+    func fetchTokenBalances(address: String) async throws -> [TokenBalance] {
+        if !isInvaldApiKey {
+            return []
+        }
+        let chainName = "eth-mainnet"
+        let walletAddress = address
+        
+        let urlStr = "https://api.covalenthq.com/v1/\(chainName)/address/\(walletAddress)/balances_v2/"
+        
+        let headers: HTTPHeaders = [.authorization(bearerToken: apiKey)]
+        let requst = AF.request(urlStr,
+                                method: .get,
+                                parameters: [
+                                    "key": apiKey,
+                                    "quote-currency": "USD"
+                                ], headers: headers)
+        
+        return try await withCheckedThrowingContinuation { continuation in
+            let decoder = JSONDecoder()
+            decoder.dateDecodingStrategy = .iso8601
+            requst.responseDecodable(of: ChainResponse<TokenBalanceData>.self, decoder: decoder) { response in
+                switch response.result {
+                case .success(let balanceResponse):
+                    return continuation.resume(with: .success(balanceResponse.data.items))
+                case .failure(let error):
+                    return continuation.resume(throwing: error)
+                }
+            }
         }
         
-        let task = URLSession.shared.dataTask(with: URLRequest(url: url)) { data, response, error in
-            guard let data = data else {
-                DispatchQueue.main.async {                
-                    completion([])
-                }
-                return
-            }
-            
-            do {
-                let decoded = try JSONDecoder().decode(TokenBalance.self, from: data)
-                DispatchQueue.main.async {
-                    completion([decoded])
-                }
-            } catch {
-                DispatchQueue.main.async {
-                    print("decoded error: %\(error.localizedDescription)")
-                    completion([])
-                }
-            }
-        }
-        task.resume()
     }
 }
 
-struct TokenBalance: Identifiable, Decodable {
-    var id = UUID()
-    let contract_name: String
-    let contract_ticker_symbol: String
-    let balance: String
-    let quote: String
+struct ChainResponse<D: Codable>: Codable {
+    let data: D
+    let error: Bool
+    let error_message: String?
+    let error_code: Int?
 }
+
+struct TokenBalanceData: Codable {
+    var address: String?
+    var chain_id: Int = 0
+    var chain_name: String?
+    var chain_tip_height: Int = 0
+    var chain_tip_signed_at: String?
+    var items = [TokenBalance]()
+    var next_update_at: String?
+    var pagination: String?
+    var quote_currency: String?
+    var updated_at: String?
+}
+
+struct TokenBalance: Codable, Identifiable {
+    
+    public var id: String {
+        return "\(block_height)"
+    }
+    
+    var balance: String?
+    var balance_24h: String?
+    var block_height: Int = 0
+    var contract_address: String?
+    var contract_decimals: Int = 0
+    var contract_display_name: String?
+    var contract_name: String?
+    var contract_ticker_symbol: String?
+    var is_spam: Bool = false
+    var last_transferred_at: String?
+    var logo_url: String?
+    var logo_urls: TokenLogoURL?
+    var native_token: Bool = false
+    var nft_data: String?
+    var pretty_quote: String?
+    var pretty_quote_24h: String?
+    var protocol_metadata: String?
+    var quote: Double?
+    var quote_24h: Double?
+    var quote_rate: Double?
+    var quote_rate_24h: Double?
+    /*
+     "supports_erc": [
+                     "erc20"
+                 ],
+     */
+    var supports_erc: [String]?
+    var type: String?
+    
+    public static func == (lhs: TokenBalance, rhs: TokenBalance) -> Bool {
+        return lhs.id == rhs.id
+    }
+    
+}
+
+struct TokenLogoURL: Codable {
+    var chain_logo_url: String?
+    var protocol_logo_url: String?
+    var token_logo_url: String?
+}
+

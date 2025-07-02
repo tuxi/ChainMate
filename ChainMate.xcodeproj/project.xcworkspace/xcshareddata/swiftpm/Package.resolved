@@ -1,6 +1,15 @@
 {
   "pins" : [
     {
+      "identity" : "alamofire",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/Alamofire/Alamofire.git",
+      "state" : {
+        "branch" : "master",
+        "revision" : "46249e016881b96846025ed8c2e5045a822af3fe"
+      }
+    },
+    {
       "identity" : "alerttoast",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/elai950/AlertToast.git",

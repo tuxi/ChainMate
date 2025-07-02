@@ -10,9 +10,16 @@ import Foundation
 class WalletDetailViewModel: ObservableObject {
     @Published var tokens: [TokenBalance] = []
     
+    
+    @MainActor
     func load(address: String) {
-        BlockchainAPI.shared.fetchTokenBalances(address: address) { [weak self] balances in
-            self?.tokens = balances
+        Task { @MainActor in
+            do {
+                let items = try await BlockchainAPI.shared.fetchTokenBalances(address: address)
+                self.tokens = items
+            } catch {
+                print(error)
+            }
         }
     }
 }
