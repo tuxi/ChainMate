@@ -23,8 +23,9 @@ struct WalletDetailView: View {
                     Text(wallet.name)
                         .font(.title2)
                         .bold()
+                    
                     HStack {
-                        Text(shortAddress(wallet.address))
+                        Text(wallet.address)
                             .font(.subheadline)
                             .foregroundStyle(Color(.gray))
                             
@@ -35,18 +36,27 @@ struct WalletDetailView: View {
                             Image(systemName: "doc.on.doc")
                         }
                     }
-                }
-                
-                Divider()
-                
-                // 总资产估值
-                VStack(alignment: .leading) {
-                    Text("总资产估值")
+                    
+                    Divider()
+                    
+                    Text("代币资产")
                         .font(.headline)
-                    Text("$12,345.67") // 静态数据，后面接API
-                        .font(.largeTitle)
-                        .bold()
-                        .foregroundColor(.green)
+                    
+                    ForEach(model.tokens) { token in
+                        HStack {
+                            VStack(alignment: .leading) {
+                                Text(token.contract_name ?? "未知")
+                                Text(token.contract_ticker_symbol ?? "")
+                                    .font(.subheadline)
+                                    .foregroundColor(.gray)
+                            }
+                            Spacer()
+                            Text("$\(token.quote ?? 0, specifier: "%.2f")")
+                                .bold()
+                        }
+                    }
+                    
+                   
                 }
                 
                 Divider()
@@ -57,7 +67,7 @@ struct WalletDetailView: View {
             AlertToast(displayMode: .alert, type: .regular, title: "已复制")
         })
         .onAppear {
-            model.load(address: wallet.address)
+            model.getBalances(address: wallet.address)
         }
         .navigationTitle("钱包详情")
     }

@@ -12,7 +12,7 @@ class WalletDetailViewModel: ObservableObject {
     
     
     @MainActor
-    func load(address: String) {
+    func getBalances(address: String) {
         Task { @MainActor in
             do {
                 let items = try await BlockchainAPI.shared.fetchTokenBalances(address: address)

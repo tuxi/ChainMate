@@ -29,21 +29,22 @@ class BlockchainAPI {
         }
     }
     
-    func fetchTokenBalances(address: String) async throws -> [TokenBalance] {
+    // 根据地址查询余额
+    // chain: The currency to convert. Supports USD, CAD, EUR, SGD, INR, JPY, VND, CNY, KRW, RUB, TRY, NGN, ARS, AUD, CHF, and GBP.
+    func fetchTokenBalances(address: String, chain: String = "eth-mainnet", quoteCurrency: String = "USD") async throws -> [TokenBalance] {
         if !isInvaldApiKey {
             return []
         }
-        let chainName = "eth-mainnet"
         let walletAddress = address
         
-        let urlStr = "https://api.covalenthq.com/v1/\(chainName)/address/\(walletAddress)/balances_v2/"
+        let urlStr = "https://api.covalenthq.com/v1/\(chain)/address/\(walletAddress)/balances_v2/"
         
         let headers: HTTPHeaders = [.authorization(bearerToken: apiKey)]
         let requst = AF.request(urlStr,
                                 method: .get,
                                 parameters: [
                                     "key": apiKey,
-                                    "quote-currency": "USD"
+                                    "quote-currency": quoteCurrency
                                 ], headers: headers)
         
         return try await withCheckedThrowingContinuation { continuation in
