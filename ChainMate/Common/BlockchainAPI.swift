@@ -29,28 +29,33 @@ class BlockchainAPI {
         }
     }
     
-    // 根据地址查询余额
-    // chain: The currency to convert. Supports USD, CAD, EUR, SGD, INR, JPY, VND, CNY, KRW, RUB, TRY, NGN, ARS, AUD, CHF, and GBP.
+    /// 根据地址查询余额
+    ///
+    /// - Parameters:
+    ///   - address:     钱包地址
+    ///   - chain:      链的名称，比如eth-mainnet
+    ///   - quoteCurrency: 要转换的货币。支持USD, CAD, EUR, SGD, INR, JPY, VND, CNY, KRW, RUB, TRY, NGN, ARS, AUD, CHF, and GBP.
+    ///   - Returns: 返回一组TokenBalance
     func fetchTokenBalances(address: String, chain: String = "eth-mainnet", quoteCurrency: String = "USD") async throws -> [TokenBalance] {
         if !isInvaldApiKey {
             return []
         }
         let walletAddress = address
         
-        let urlStr = "https://api.covalenthq.com/v1/\(chain)/address/\(walletAddress)/balances_v2/"
-        
+        let urlStr = "https://api.covalenthq.com/v1/eth-mainnet/address/\(walletAddress)/balances_v2/"
         let headers: HTTPHeaders = [.authorization(bearerToken: apiKey)]
         let requst = AF.request(urlStr,
                                 method: .get,
                                 parameters: [
                                     "key": apiKey,
-                                    "quote-currency": quoteCurrency
+                                    "quote-currency": quoteCurrency,
+                                    "page-size": 5
                                 ], headers: headers)
         
         return try await withCheckedThrowingContinuation { continuation in
             let decoder = JSONDecoder()
             decoder.dateDecodingStrategy = .iso8601
-            requst.responseDecodable(of: ChainResponse<TokenBalanceData>.self, decoder: decoder) { response in
+            requst.responseDecodable(of: ChainResponse<TokenBalance>.self, decoder: decoder) { response in
                 switch response.result {
                 case .success(let balanceResponse):
                     return continuation.resume(with: .success(balanceResponse.data.items))
@@ -61,28 +66,68 @@ class BlockchainAPI {
         }
         
     }
+    
+    func fetchTransactions(address: String, chain: String = "eth-mainnet", quoteCurrency: String = "USD") async throws -> [TokenTransactionItem] {
+        if !isInvaldApiKey {
+            return []
+        }
+        
+        let walletAddress = address
+    
+        let urlStr = "https://api.covalenthq.com/v1/\(chain)/address/\(walletAddress)/transactions_v2/"
+        let headers: HTTPHeaders = [.authorization(bearerToken: apiKey)]
+        let requst = AF.request(urlStr,
+                                method: .get,
+                                parameters: [
+                                    "key": apiKey,
+                                    "quote-currency": quoteCurrency,
+                                    "page-size": 5,
+                                ], headers: headers)
+        
+        return try await withCheckedThrowingContinuation { continuation in
+            let decoder = JSONDecoder()
+            decoder.dateDecodingStrategy = .iso8601
+            requst.responseDecodable(of: ChainResponse<TokenTransactionItem>.self, decoder: decoder) { response in
+                switch response.result {
+                case .success(let txResponse):
+                    return continuation.resume(with: .success(txResponse.data.items))
+                case .failure(let error):
+                    return continuation.resume(throwing: error)
+                }
+            }
+        }
+    }
 }
 
-struct ChainResponse<D: Codable>: Codable {
+struct ChainResponse<Item: Codable>: Codable {
     let data: D
     let error: Bool
     let error_message: String?
     let error_code: Int?
+    
+    struct D: Codable {
+        var address: String?
+        var chain_id: Int = 0
+        var chain_name: String?
+        var chain_tip_height: Int = 0
+        var chain_tip_signed_at: String?
+        var items = [Item]()
+        var next_update_at: String?
+        var pagination: Pagination?
+        var quote_currency: String?
+        var updated_at: String?
+        
+        struct Pagination: Codable {
+            var has_more: Bool = false
+            var page_number: Int = 0
+            var page_size: Int = 0
+            var total_count: Int? = 0
+        }
+        
+    }
 }
 
-struct TokenBalanceData: Codable {
-    var address: String?
-    var chain_id: Int = 0
-    var chain_name: String?
-    var chain_tip_height: Int = 0
-    var chain_tip_signed_at: String?
-    var items = [TokenBalance]()
-    var next_update_at: String?
-    var pagination: String?
-    var quote_currency: String?
-    var updated_at: String?
-}
-
+// 一种代币的余额
 struct TokenBalance: Codable, Identifiable {
     
     public var id: String {
@@ -112,8 +157,8 @@ struct TokenBalance: Codable, Identifiable {
     var quote_rate_24h: Double?
     /*
      "supports_erc": [
-                     "erc20"
-                 ],
+     "erc20"
+     ],
      */
     var supports_erc: [String]?
     var type: String?
@@ -130,6 +175,50 @@ struct TokenBalance: Codable, Identifiable {
         return lhs.id == rhs.id
     }
     
+}
+
+// 交易记录
+struct TokenTransactionItem: Codable, Identifiable {
+    var id: String {
+        return tx_hash ?? ""
+    }
+    
+    var block_hash: String?
+    var block_height: Int = 0
+    var block_signed_at: String?
+    var fees_paid: String?
+    var from_address: String?
+    var from_address_label: String?
+    var gas_metadata: GasMetadata?
+    var gas_offered: Int = 0
+    var gas_price: Int = 0
+    var gas_quote: Double = 0.0
+    var gas_quote_rate: Float = 0.0
+    var gas_spent: Int = 0
+    var miner_address: String?
+    var pretty_gas_quote: String?
+    var pretty_value_quote: String?
+    var successful: Bool = false
+    var to_address: String?
+    var to_address_label: String?
+    var tx_hash: String?
+    var tx_offset: Int = 0
+    var value: String?
+    var value_quote: Float = 0.0
+    
+    struct GasMetadata: Codable {
+        var contract_address: String?
+        var contract_decimals: Int = 0
+        var contract_name: String?
+        var contract_ticker_symbol: String?
+        var logo_url: String?
+        var supports_erc: [String]?
+    }
+    
+    
+    public static func == (lhs: Self, rhs: Self) -> Bool {
+        return lhs.id == rhs.id
+    }
 }
 
 struct TokenLogoURL: Codable {

@@ -44,7 +44,7 @@ struct WalletDetailView: View {
                     
                 
                     
-                    ForEach(model.tokens) { token in
+                    ForEach(model.balances) { token in
                         HStack {
                             VStack(alignment: .leading) {
                                 Text(token.contract_display_name ?? token.contract_ticker_symbol ?? "未知")
@@ -59,6 +59,31 @@ struct WalletDetailView: View {
                         }
                     }
                     
+                    Divider()
+                    Text("最近交易")
+                        .font(.headline)
+                    
+                    ForEach(model.transactions.prefix(10)) { transaction in
+                        VStack(alignment: .leading, spacing: 4) {
+                            Text(transaction.block_signed_at?.formatISO8601() ?? "")
+                                .font(.caption)
+                                .foregroundStyle(.gray)
+                            
+                            HStack {
+                                Image(systemName: transaction.successful ? "checkmark.circle" : "xmark.circle")
+                                    .foregroundStyle(transaction.successful ? Color.green : Color.red)
+                                Text(transaction.from_address == wallet.address.lowercased() ? "→ 发送交易" : "← 接收交易")
+                                                .font(.subheadline)
+                                
+                                Spacer()
+                                Text("\(formatTokenBalance(balance: transaction.value ?? "", decimals: 18)) ETH")
+                                                .font(.subheadline)
+                                                .bold()
+                                
+                            }
+                        }
+                        .padding(.vertical, 4)
+                    }
                    
                 }
                 
@@ -71,6 +96,8 @@ struct WalletDetailView: View {
         })
         .onAppear {
             model.getBalances(address: wallet.address)
+            model.getTransactions(address: wallet.address)
+        
         }
         .navigationTitle("钱包详情")
     }

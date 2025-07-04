@@ -22,6 +22,7 @@
 		D037B2DE2E0D2D0100D23846 /* ContentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D037B2DD2E0D2D0100D23846 /* ContentViewModel.swift */; };
 		D037B2E02E0D2D3900D23846 /* Tabs.swift in Sources */ = {isa = PBXBuildFile; fileRef = D037B2DF2E0D2D3900D23846 /* Tabs.swift */; };
 		D037B2E32E0D31C500D23846 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D037B2E22E0D31C500D23846 /* SettingsView.swift */; };
+		D0456BAD2E18102C0066DE73 /* String+ISO8601.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0456BAC2E18102C0066DE73 /* String+ISO8601.swift */; };
 		D0E2844D2E1178F50061DCAD /* BlockchainAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0E2844C2E1178F50061DCAD /* BlockchainAPI.swift */; };
 		D0E2844F2E117E260061DCAD /* WalletDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0E2844E2E117E260061DCAD /* WalletDetailViewModel.swift */; };
 		D0E284522E125AC80061DCAD /* api.key in Resources */ = {isa = PBXBuildFile; fileRef = D0E284512E125AC80061DCAD /* api.key */; };
@@ -48,6 +49,7 @@
 		D037B2DD2E0D2D0100D23846 /* ContentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentViewModel.swift; sourceTree = "<group>"; };
 		D037B2DF2E0D2D3900D23846 /* Tabs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tabs.swift; sourceTree = "<group>"; };
 		D037B2E22E0D31C500D23846 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		D0456BAC2E18102C0066DE73 /* String+ISO8601.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+ISO8601.swift"; sourceTree = "<group>"; };
 		D0E2844C2E1178F50061DCAD /* BlockchainAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockchainAPI.swift; sourceTree = "<group>"; };
 		D0E2844E2E117E260061DCAD /* WalletDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletDetailViewModel.swift; sourceTree = "<group>"; };
 		D0E284512E125AC80061DCAD /* api.key */ = {isa = PBXFileReference; explicitFileType = text; fileEncoding = 4; path = api.key; sourceTree = "<group>"; };
@@ -87,7 +89,7 @@
 		D037B2BC2E0D241700D23846 /* ChainMate */ = {
 			isa = PBXGroup;
 			children = (
-				D0E2845B2E1648E00061DCAD /* Utils */,
+				D0E2845B2E1648E00061DCAD /* Extensions */,
 				D0E284502E125AC80061DCAD /* Resources */,
 				D037B2D12E0D2CA700D23846 /* App */,
 				D037B2D32E0D2CA700D23846 /* Common */,
@@ -166,12 +168,13 @@
 			path = Resources;
 			sourceTree = "<group>";
 		};
-		D0E2845B2E1648E00061DCAD /* Utils */ = {
+		D0E2845B2E1648E00061DCAD /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
 				D0E2845C2E1648FE0061DCAD /* TokenFormat.swift */,
+				D0456BAC2E18102C0066DE73 /* String+ISO8601.swift */,
 			);
-			path = Utils;
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -263,6 +266,7 @@
 				D0E2845D2E1648FF0061DCAD /* TokenFormat.swift in Sources */,
 				D037B2D92E0D2CA800D23846 /* ContentView.swift in Sources */,
 				D034B1262E0E67F500E2943A /* WalletListViewModel.swift in Sources */,
+				D0456BAD2E18102C0066DE73 /* String+ISO8601.swift in Sources */,
 				D037B2DE2E0D2D0100D23846 /* ContentViewModel.swift in Sources */,
 				D037B2BE2E0D241700D23846 /* ChainMateApp.swift in Sources */,
 				D034B1202E0D89B400E2943A /* RouterPath.swift in Sources */,
