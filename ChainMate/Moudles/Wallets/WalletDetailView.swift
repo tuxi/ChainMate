@@ -42,11 +42,14 @@ struct WalletDetailView: View {
                     Text("代币资产")
                         .font(.headline)
                     
+                
+                    
                     ForEach(model.tokens) { token in
                         HStack {
                             VStack(alignment: .leading) {
-                                Text(token.contract_name ?? "未知")
-                                Text(token.contract_ticker_symbol ?? "")
+                                Text(token.contract_display_name ?? token.contract_ticker_symbol ?? "未知")
+                                    .font(.headline)
+                                Text(token.displayTokenBalance)
                                     .font(.subheadline)
                                     .foregroundColor(.gray)
                             }

@@ -118,6 +118,14 @@ struct TokenBalance: Codable, Identifiable {
     var supports_erc: [String]?
     var type: String?
     
+    // 显示余额，例如11.9681818 ETH
+    var displayTokenBalance: String {
+        guard let balance else { return "" }
+        let formattedBalance = formatTokenBalance(balance: balance, decimals: contract_decimals, precision: 6)
+        let str = "\(formattedBalance) \(contract_ticker_symbol ?? "")"
+        return str
+    }
+    
     public static func == (lhs: TokenBalance, rhs: TokenBalance) -> Bool {
         return lhs.id == rhs.id
     }
