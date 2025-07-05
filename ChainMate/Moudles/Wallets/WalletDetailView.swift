@@ -44,7 +44,7 @@ struct WalletDetailView: View {
                     
                 
                     
-                    ForEach(model.balances) { token in
+                    ForEach(model.balancesModel?.items ?? []) { token in
                         HStack {
                             VStack(alignment: .leading) {
                                 Text(token.contract_display_name ?? token.contract_ticker_symbol ?? "未知")
@@ -63,28 +63,46 @@ struct WalletDetailView: View {
                     Text("最近交易")
                         .font(.headline)
                     
-                    ForEach(model.transactions.prefix(10)) { transaction in
-                        VStack(alignment: .leading, spacing: 4) {
-                            Text(transaction.block_signed_at?.formatISO8601() ?? "")
-                                .font(.caption)
-                                .foregroundStyle(.gray)
-                            
-                            HStack {
-                                Image(systemName: transaction.successful ? "checkmark.circle" : "xmark.circle")
-                                    .foregroundStyle(transaction.successful ? Color.green : Color.red)
-                                Text(transaction.from_address == wallet.address.lowercased() ? "→ 发送交易" : "← 接收交易")
-                                                .font(.subheadline)
+                    if let transactionsModel = model.transactionsModel, let chanId = ChainId(rawValue: transactionsModel.chain_id) {
+                        ForEach(transactionsModel.items.prefix(10)) { transaction in
+                            VStack(alignment: .leading, spacing: 4) {
+                                Text(transaction.block_signed_at?.formatISO8601() ?? "")
+                                    .font(.caption)
+                                    .foregroundStyle(.gray)
+
                                 
-                                Spacer()
-                                Text("\(formatTokenBalance(balance: transaction.value ?? "", decimals: 18)) ETH")
-                                                .font(.subheadline)
-                                                .bold()
+                                HStack {
+                                    Image(systemName: transaction.successful ? "checkmark.circle" : "xmark.circle")
+                                        .foregroundStyle(transaction.successful ? Color.green : Color.red)
+                                    Text(transaction.from_address == wallet.address.lowercased() ? "→ 发送交易" : "← 接收交易")
+                                                    .font(.subheadline)
+                                    
+                                    Spacer()
+                                    Text("\(formatTokenBalance(balance: transaction.value ?? "", decimals: 18)) ETH")
+                                                    .font(.subheadline)
+                                                    .bold()
+                                    
+                                }
                                 
+                                Button {
+                                    if let txHash = transaction.tx_hash {
+                                        ExplorerNavigator.openTransactionDetail(txHash: txHash, chainId: transactionsModel.chain_id)
+                                    }
+                                } label: {
+                                    HStack(spacing: 4) {
+                                        Image(systemName: "link")
+                                        Text("查看 Etherscan")
+                                    }
+                                    .font(.caption)
+                                    .foregroundColor(.blue)
+                                }
+
                             }
+                            .padding(.vertical, 4)
                         }
-                        .padding(.vertical, 4)
+                       
                     }
-                   
+                    
                 }
                 
                 Divider()

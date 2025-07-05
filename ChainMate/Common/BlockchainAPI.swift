@@ -12,9 +12,10 @@ class BlockchainAPI {
     static let shared = BlockchainAPI()
     private var apiKey: String = ""
     
-    var isInvaldApiKey: Bool {
+    // 是不是无效的apiKey
+    var isInvalidApiKey: Bool {
         guard let apiKeyPath = Bundle.main.path(forResource: "api", ofType: "key") else {
-            return false
+            return true
         }
         do {
             var text = try String(contentsOf: URL(filePath: apiKeyPath), encoding: .utf8)
@@ -22,10 +23,10 @@ class BlockchainAPI {
                 text.removeLast()
             }
             self.apiKey = text
-            return true
+            return false
         } catch {
             print("Load apiKey error: \(error.localizedDescription)")
-            return false
+            return true
         }
     }
     
@@ -36,9 +37,9 @@ class BlockchainAPI {
     ///   - chain:      链的名称，比如eth-mainnet
     ///   - quoteCurrency: 要转换的货币。支持USD, CAD, EUR, SGD, INR, JPY, VND, CNY, KRW, RUB, TRY, NGN, ARS, AUD, CHF, and GBP.
     ///   - Returns: 返回一组TokenBalance
-    func fetchTokenBalances(address: String, chain: String = "eth-mainnet", quoteCurrency: String = "USD") async throws -> [TokenBalance] {
-        if !isInvaldApiKey {
-            return []
+    func fetchTokenBalances(address: String, chain: String = "eth-mainnet", quoteCurrency: String = "USD") async throws -> ChainData<TokenBalance> {
+        if isInvalidApiKey {
+            throw NSError(domain: "InvalidApiKey", code: 404)
         }
         let walletAddress = address
         
@@ -58,7 +59,7 @@ class BlockchainAPI {
             requst.responseDecodable(of: ChainResponse<TokenBalance>.self, decoder: decoder) { response in
                 switch response.result {
                 case .success(let balanceResponse):
-                    return continuation.resume(with: .success(balanceResponse.data.items))
+                    return continuation.resume(with: .success(balanceResponse.data))
                 case .failure(let error):
                     return continuation.resume(throwing: error)
                 }
@@ -67,9 +68,9 @@ class BlockchainAPI {
         
     }
     
-    func fetchTransactions(address: String, chain: String = "eth-mainnet", quoteCurrency: String = "USD") async throws -> [TokenTransactionItem] {
-        if !isInvaldApiKey {
-            return []
+    func fetchTransactions(address: String, chain: String = "eth-mainnet", quoteCurrency: String = "USD") async throws -> ChainData<TokenTransactionItem> {
+        if isInvalidApiKey {
+            throw NSError(domain: "InvalidApiKey", code: 404)
         }
         
         let walletAddress = address
@@ -90,7 +91,7 @@ class BlockchainAPI {
             requst.responseDecodable(of: ChainResponse<TokenTransactionItem>.self, decoder: decoder) { response in
                 switch response.result {
                 case .success(let txResponse):
-                    return continuation.resume(with: .success(txResponse.data.items))
+                    return continuation.resume(with: .success(txResponse.data))
                 case .failure(let error):
                     return continuation.resume(throwing: error)
                 }
@@ -100,31 +101,31 @@ class BlockchainAPI {
 }
 
 struct ChainResponse<Item: Codable>: Codable {
-    let data: D
+    let data: ChainData<Item>
     let error: Bool
     let error_message: String?
     let error_code: Int?
+}
+
+struct ChainData<Item: Codable>: Codable {
+    var address: String?
+    var chain_id: Int = 0
+    var chain_name: String?
+    var chain_tip_height: Int = 0
+    var chain_tip_signed_at: String?
+    var items = [Item]()
+    var next_update_at: String?
+    var pagination: Pagination?
+    var quote_currency: String?
+    var updated_at: String?
     
-    struct D: Codable {
-        var address: String?
-        var chain_id: Int = 0
-        var chain_name: String?
-        var chain_tip_height: Int = 0
-        var chain_tip_signed_at: String?
-        var items = [Item]()
-        var next_update_at: String?
-        var pagination: Pagination?
-        var quote_currency: String?
-        var updated_at: String?
-        
-        struct Pagination: Codable {
-            var has_more: Bool = false
-            var page_number: Int = 0
-            var page_size: Int = 0
-            var total_count: Int? = 0
-        }
-        
+    struct Pagination: Codable {
+        var has_more: Bool = false
+        var page_number: Int = 0
+        var page_size: Int = 0
+        var total_count: Int? = 0
     }
+    
 }
 
 // 一种代币的余额
@@ -138,7 +139,7 @@ struct TokenBalance: Codable, Identifiable {
     var balance_24h: String?
     var block_height: Int = 0
     var contract_address: String?
-    var contract_decimals: Int = 0
+    var contract_decimals: Int?
     var contract_display_name: String?
     var contract_name: String?
     var contract_ticker_symbol: String?
@@ -166,7 +167,7 @@ struct TokenBalance: Codable, Identifiable {
     // 显示余额，例如11.9681818 ETH
     var displayTokenBalance: String {
         guard let balance else { return "" }
-        let formattedBalance = formatTokenBalance(balance: balance, decimals: contract_decimals, precision: 6)
+        let formattedBalance = formatTokenBalance(balance: balance, decimals: contract_decimals ?? 0, precision: 6)
         let str = "\(formattedBalance) \(contract_ticker_symbol ?? "")"
         return str
     }

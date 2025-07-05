@@ -8,15 +8,15 @@
 import Foundation
 
 class WalletDetailViewModel: ObservableObject {
-    @Published var balances: [TokenBalance] = []
-    @Published var transactions: [TokenTransactionItem] = []
+    @Published var balancesModel: ChainData<TokenBalance>?
+    @Published var transactionsModel: ChainData<TokenTransactionItem>?
     
     @MainActor
     func getBalances(address: String) {
         Task { @MainActor in
             do {
-                let items = try await BlockchainAPI.shared.fetchTokenBalances(address: address)
-                self.balances = items
+                let model = try await BlockchainAPI.shared.fetchTokenBalances(address: address)
+                self.balancesModel = model
             } catch {
                 print(error)
             }
@@ -26,8 +26,8 @@ class WalletDetailViewModel: ObservableObject {
     func getTransactions(address: String) {
         Task { @MainActor in
             do {
-                let items = try await BlockchainAPI.shared.fetchTransactions(address: address)
-                 self.transactions = items
+                let model = try await BlockchainAPI.shared.fetchTransactions(address: address)
+                 self.transactionsModel = model
             } catch {
                 print(error)
             }
