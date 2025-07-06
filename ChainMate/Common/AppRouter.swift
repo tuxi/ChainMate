@@ -13,6 +13,8 @@ extension View {
             switch $0 {
             case .walletDetail(let wallet):
                 WalletDetailView(wallet: wallet)
+            case .transactionList(let walletAddress, let chainId):
+                TransactionListView(walletAddress: walletAddress, chainId: chainId)
             }
         }
     }

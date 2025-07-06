@@ -18,94 +18,31 @@ struct WalletDetailView: View {
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 16) {
-                // 钱包名称和地址
                 VStack(alignment: .leading) {
-                    Text(wallet.name)
-                        .font(.title2)
-                        .bold()
-                    
-                    HStack {
-                        Text(wallet.address)
-                            .font(.subheadline)
-                            .foregroundStyle(Color(.gray))
-                            
-                        Button(action: {
-                            UIPasteboard.general.string = wallet.address
-                            isShowPasteSuss = true
-                        }) {
-                            Image(systemName: "doc.on.doc")
-                        }
-                    }
+                    // 钱包名称和地址
+                    headerView()
                     
                     Divider()
                     
                     Text("代币资产")
                         .font(.headline)
                     
-                
-                    
-                    ForEach(model.balancesModel?.items ?? []) { token in
-                        HStack {
-                            VStack(alignment: .leading) {
-                                Text(token.contract_display_name ?? token.contract_ticker_symbol ?? "未知")
-                                    .font(.headline)
-                                Text(token.displayTokenBalance)
-                                    .font(.subheadline)
-                                    .foregroundColor(.gray)
-                            }
-                            Spacer()
-                            Text("$\(token.quote ?? 0, specifier: "%.2f")")
-                                .bold()
-                        }
+                    if let balancesModel = model.balancesModel {
+                        allAssetsView(model: balancesModel)
                     }
                     
                     Divider()
                     Text("最近交易")
                         .font(.headline)
                     
-                    if let transactionsModel = model.transactionsModel, let chanId = ChainId(rawValue: transactionsModel.chain_id) {
-                        ForEach(transactionsModel.items.prefix(10)) { transaction in
-                            VStack(alignment: .leading, spacing: 4) {
-                                Text(transaction.block_signed_at?.formatISO8601() ?? "")
-                                    .font(.caption)
-                                    .foregroundStyle(.gray)
-
-                                
-                                HStack {
-                                    Image(systemName: transaction.successful ? "checkmark.circle" : "xmark.circle")
-                                        .foregroundStyle(transaction.successful ? Color.green : Color.red)
-                                    Text(transaction.from_address == wallet.address.lowercased() ? "→ 发送交易" : "← 接收交易")
-                                                    .font(.subheadline)
-                                    
-                                    Spacer()
-                                    Text("\(formatTokenBalance(balance: transaction.value ?? "", decimals: 18)) ETH")
-                                                    .font(.subheadline)
-                                                    .bold()
-                                    
-                                }
-                                
-                                Button {
-                                    if let txHash = transaction.tx_hash {
-                                        ExplorerNavigator.openTransactionDetail(txHash: txHash, chainId: transactionsModel.chain_id)
-                                    }
-                                } label: {
-                                    HStack(spacing: 4) {
-                                        Image(systemName: "link")
-                                        Text("查看 Etherscan")
-                                    }
-                                    .font(.caption)
-                                    .foregroundColor(.blue)
-                                }
-
-                            }
-                            .padding(.vertical, 4)
-                        }
-                       
+                    if let transactionsModel = model.transactionsModel, let chainId = ChainId(rawValue: transactionsModel.chain_id) {
+                        recentTrasactionsView(model: transactionsModel, chain: chainId)
                     }
+                    
+                    Divider()
                     
                 }
                 
-                Divider()
             }
             .padding()
         }
@@ -118,6 +55,68 @@ struct WalletDetailView: View {
         
         }
         .navigationTitle("钱包详情")
+    }
+    
+    @ViewBuilder
+    func headerView() -> some View {
+        Text(wallet.name)
+            .font(.title2)
+            .bold()
+        
+        HStack {
+            Text(wallet.address)
+                .font(.subheadline)
+                .foregroundStyle(Color(.gray))
+                
+            Button(action: {
+                UIPasteboard.general.string = wallet.address
+                isShowPasteSuss = true
+            }) {
+                Image(systemName: "doc.on.doc")
+            }
+        }
+        
+    }
+    
+    // 所有资产
+    @ViewBuilder
+    func allAssetsView(model: ChainData<TokenBalance>) -> some View {
+        ForEach(model.items) { token in
+            HStack {
+                VStack(alignment: .leading) {
+                    Text(token.contract_display_name ?? token.contract_ticker_symbol ?? "未知")
+                        .font(.headline)
+                    Text(token.displayTokenBalance)
+                        .font(.subheadline)
+                        .foregroundColor(.gray)
+                }
+                Spacer()
+                Text("$\(token.quote ?? 0, specifier: "%.2f")")
+                    .bold()
+            }
+        }
+        
+    }
+    
+    // 最近交易列表
+    @ViewBuilder
+    func recentTrasactionsView(model: ChainData<TokenTransactionItem>, chain: ChainId) -> some View {
+        ForEach(model.items.prefix(10)) { transaction in
+            
+            TransactionRowView(model: transaction, walletAddress: wallet.address, chainId: model.chain_id)
+            
+         }
+        
+        Divider()
+        
+        // 查看所有转移记录
+        NavigationLink(value: RouterPath.Destination.transactionList(walletAddress: wallet.address, chainId: chain.rawValue)) {
+            Text("查看全部记录")
+                .foregroundStyle(.gray)
+                .frame(maxWidth: .infinity)
+                .font(.subheadline)
+                .padding(.top, 6)
+        }
     }
     
     func shortAddress(_ address: String) -> String {

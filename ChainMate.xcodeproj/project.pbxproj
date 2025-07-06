@@ -24,6 +24,8 @@
 		D037B2E32E0D31C500D23846 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D037B2E22E0D31C500D23846 /* SettingsView.swift */; };
 		D0456BAD2E18102C0066DE73 /* String+ISO8601.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0456BAC2E18102C0066DE73 /* String+ISO8601.swift */; };
 		D0456BAF2E18EE4F0066DE73 /* ExplorerNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0456BAE2E18EE4F0066DE73 /* ExplorerNavigator.swift */; };
+		D0456BB12E1A398B0066DE73 /* TransactionListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0456BB02E1A398B0066DE73 /* TransactionListView.swift */; };
+		D0954F312E1A408E00FAFC6C /* TransactionRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0954F302E1A408E00FAFC6C /* TransactionRowView.swift */; };
 		D0E2844D2E1178F50061DCAD /* BlockchainAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0E2844C2E1178F50061DCAD /* BlockchainAPI.swift */; };
 		D0E2844F2E117E260061DCAD /* WalletDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0E2844E2E117E260061DCAD /* WalletDetailViewModel.swift */; };
 		D0E284522E125AC80061DCAD /* api.key in Resources */ = {isa = PBXBuildFile; fileRef = D0E284512E125AC80061DCAD /* api.key */; };
@@ -52,6 +54,8 @@
 		D037B2E22E0D31C500D23846 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		D0456BAC2E18102C0066DE73 /* String+ISO8601.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+ISO8601.swift"; sourceTree = "<group>"; };
 		D0456BAE2E18EE4F0066DE73 /* ExplorerNavigator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExplorerNavigator.swift; sourceTree = "<group>"; };
+		D0456BB02E1A398B0066DE73 /* TransactionListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionListView.swift; sourceTree = "<group>"; };
+		D0954F302E1A408E00FAFC6C /* TransactionRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionRowView.swift; sourceTree = "<group>"; };
 		D0E2844C2E1178F50061DCAD /* BlockchainAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockchainAPI.swift; sourceTree = "<group>"; };
 		D0E2844E2E117E260061DCAD /* WalletDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletDetailViewModel.swift; sourceTree = "<group>"; };
 		D0E284512E125AC80061DCAD /* api.key */ = {isa = PBXFileReference; explicitFileType = text; fileEncoding = 4; path = api.key; sourceTree = "<group>"; };
@@ -135,6 +139,7 @@
 		D037B2D42E0D2CA700D23846 /* Moudles */ = {
 			isa = PBXGroup;
 			children = (
+				D0954F2F2E1A406500FAFC6C /* Transaction */,
 				D037B2E12E0D31AC00D23846 /* Settings */,
 				D037B2D52E0D2CA700D23846 /* Wallets */,
 			);
@@ -161,6 +166,15 @@
 				D037B2E22E0D31C500D23846 /* SettingsView.swift */,
 			);
 			path = Settings;
+			sourceTree = "<group>";
+		};
+		D0954F2F2E1A406500FAFC6C /* Transaction */ = {
+			isa = PBXGroup;
+			children = (
+				D0456BB02E1A398B0066DE73 /* TransactionListView.swift */,
+				D0954F302E1A408E00FAFC6C /* TransactionRowView.swift */,
+			);
+			path = Transaction;
 			sourceTree = "<group>";
 		};
 		D0E284502E125AC80061DCAD /* Resources */ = {
@@ -272,9 +286,11 @@
 				D0456BAD2E18102C0066DE73 /* String+ISO8601.swift in Sources */,
 				D0456BAF2E18EE4F0066DE73 /* ExplorerNavigator.swift in Sources */,
 				D037B2DE2E0D2D0100D23846 /* ContentViewModel.swift in Sources */,
+				D0954F312E1A408E00FAFC6C /* TransactionRowView.swift in Sources */,
 				D037B2BE2E0D241700D23846 /* ChainMateApp.swift in Sources */,
 				D034B1202E0D89B400E2943A /* RouterPath.swift in Sources */,
 				D037B2DA2E0D2CA800D23846 /* WalletDetailView.swift in Sources */,
+				D0456BB12E1A398B0066DE73 /* TransactionListView.swift in Sources */,
 				D034B1222E0D8F7C00E2943A /* AppRouter.swift in Sources */,
 				D037B2DB2E0D2CA800D23846 /* WalletListView.swift in Sources */,
 				D034B1282E0E6E5900E2943A /* AddWalletView.swift in Sources */,

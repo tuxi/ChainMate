@@ -68,7 +68,7 @@ class BlockchainAPI {
         
     }
     
-    func fetchTransactions(address: String, chain: String = "eth-mainnet", quoteCurrency: String = "USD") async throws -> ChainData<TokenTransactionItem> {
+    func fetchTransactions(address: String, chain: String = "eth-mainnet", quoteCurrency: String = "USD", pageNumber: Int = 1, pageSize: Int = 20) async throws -> ChainData<TokenTransactionItem> {
         if isInvalidApiKey {
             throw NSError(domain: "InvalidApiKey", code: 404)
         }
@@ -82,7 +82,8 @@ class BlockchainAPI {
                                 parameters: [
                                     "key": apiKey,
                                     "quote-currency": quoteCurrency,
-                                    "page-size": 5,
+                                    "page-size": pageSize,
+                                    "page-number": pageNumber
                                 ], headers: headers)
         
         return try await withCheckedThrowingContinuation { continuation in

@@ -33,6 +33,9 @@ extension RouterPath {
     
     // 路由的目标
     enum Destination: Hashable {
+        // 钱包详情
         case walletDetail(Wallet)
+        // 所有转移记录
+        case transactionList(walletAddress: String, chainId: Int)
     }
 }
