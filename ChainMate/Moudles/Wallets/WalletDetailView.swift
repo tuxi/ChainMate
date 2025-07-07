@@ -24,8 +24,13 @@ struct WalletDetailView: View {
                     
                     Divider()
                     
-                    Text("代币资产")
+                    Text("代币资产（USD）")
                         .font(.headline)
+                    
+                    // 3️⃣ 📈 PortfolioChartView：资产走势图表（30天）
+                    
+                        PortfolioChartView(dataPoints: model.historyPoints ?? [])
+                            .frame(height: 200)
                     
                     if let balancesModel = model.balancesModel {
                         allAssetsView(model: balancesModel)
@@ -52,6 +57,7 @@ struct WalletDetailView: View {
         .onAppear {
             model.getBalances(address: wallet.address)
             model.getTransactions(address: wallet.address)
+            model.getPortfolioHistory(address: wallet.address)
         
         }
         .navigationTitle("钱包详情")

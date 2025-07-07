@@ -68,6 +68,7 @@ class BlockchainAPI {
         
     }
     
+    // 查询代币转移记录
     func fetchTransactions(address: String, chain: String = "eth-mainnet", quoteCurrency: String = "USD", pageNumber: Int = 1, pageSize: Int = 20) async throws -> ChainData<TokenTransactionItem> {
         if isInvalidApiKey {
             throw NSError(domain: "InvalidApiKey", code: 404)
@@ -93,6 +94,37 @@ class BlockchainAPI {
                 switch response.result {
                 case .success(let txResponse):
                     return continuation.resume(with: .success(txResponse.data))
+                case .failure(let error):
+                    return continuation.resume(throwing: error)
+                }
+            }
+        }
+    }
+    
+    // 查询
+    func fetchPortfolioHistory(address: String, chain: String = "eth-mainnet", quoteCurrency: String = "USD", days: Int = 30) async throws -> ChainData<ChartPointItem> {
+        if isInvalidApiKey {
+            throw NSError(domain: "InvalidApiKey", code: 404)
+        }
+        
+        let walletAddress = address
+    
+        let urlStr = "https://api.covalenthq.com/v1/\(chain)/address/\(walletAddress)/portfolio_v2/"
+        let headers: HTTPHeaders = [.authorization(bearerToken: apiKey)]
+        let requst = AF.request(urlStr,
+                                method: .get,
+                                parameters: [
+                                    "key": apiKey,
+                                    "quote-currency": quoteCurrency,
+                                    "days": days
+                                ], headers: headers)
+        return try await withCheckedThrowingContinuation { continuation in
+            let decoder = JSONDecoder()
+            decoder.dateDecodingStrategy = .iso8601
+            requst.responseDecodable(of: ChainResponse<ChartPointItem>.self, decoder: decoder) { response in
+                switch response.result {
+                case .success(let data):
+                    return continuation.resume(with: .success(data.data))
                 case .failure(let error):
                     return continuation.resume(throwing: error)
                 }
@@ -229,3 +261,45 @@ struct TokenLogoURL: Codable {
     var token_logo_url: String?
 }
 
+struct ChartPointItem: Codable {
+    var contract_address: String?
+    var contract_decimals: Int = 0
+    var contract_name: String?
+    var contract_ticker_symbol: String?
+    var holdings = [ChartPointItemHoldings]()
+    var logo_url: String?
+}
+
+struct ChartPointItemHoldings: Codable {
+    // 收盘估值，用于趋势图，最常见
+    var close: Point?
+    // 最高估值,可用于绘制蜡烛图
+    var high: Point?
+    // 最低估值
+    var low: Point?
+    // 开盘估值,做开盘-收盘对比
+    var open: Point?
+    var quote_rate: Double?
+    var timestamp: String?
+    
+
+    struct Point: Codable {
+        var balance: String?
+        var pretty_quote: String?
+        var quote: Double?
+        
+        init(from decoder: Decoder) throws {
+            let container: KeyedDecodingContainer<ChartPointItemHoldings.Point.CodingKeys> = try decoder.container(keyedBy: ChartPointItemHoldings.Point.CodingKeys.self)
+            
+            self.balance = try container.decodeIfPresent(String.self, forKey: ChartPointItemHoldings.Point.CodingKeys.balance)
+            self.pretty_quote = try container.decodeIfPresent(String.self, forKey: ChartPointItemHoldings.Point.CodingKeys.pretty_quote)
+            
+            // 解决Double类型的字段，接口返回NaN了
+            if let quote = try? container.decodeIfPresent(Double.self, forKey: ChartPointItemHoldings.Point.CodingKeys.quote) {
+                self.quote = quote
+            } else {
+                self.quote = nil
+            }
+        }
+    }
+}
