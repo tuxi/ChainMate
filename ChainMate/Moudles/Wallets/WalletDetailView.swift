@@ -11,30 +11,31 @@ import AlertToast
 struct WalletDetailView: View {
     
     let wallet: Wallet
-    @State var isShowPasteSuss = false
     
     @StateObject private var model = WalletDetailViewModel()
+    
+    @State var isShowPasteSuss = false
     
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 16) {
                 VStack(alignment: .leading) {
                     // 钱包名称和地址
-                    headerView()
+                    WalletHeaderView(wallet: wallet, isShowPasteSuss: $isShowPasteSuss)
                     
                     Divider()
+                    Text("总资产估值（USD）")
+                        .font(.headline)
+                    // 当前前总资产估值，以及资产明细
+                    WalletSummaryView(totalValueUSD: model.totalBalance ?? 0, tokenList: model.balancesModel?.items ?? [])
                     
+                    Divider()
                     Text("代币资产（USD）")
                         .font(.headline)
                     
-                    // 3️⃣ 📈 PortfolioChartView：资产走势图表（30天）
-                    
-                        PortfolioChartView(dataPoints: model.historyPoints ?? [])
-                            .frame(height: 200)
-                    
-                    if let balancesModel = model.balancesModel {
-                        allAssetsView(model: balancesModel)
-                    }
+                    // 📈 资产走势图表（30天）
+                    PortfolioChartView(dataPoints: model.historyPoints ?? [])
+                        .frame(height: 200)
                     
                     Divider()
                     Text("最近交易")
@@ -58,51 +59,11 @@ struct WalletDetailView: View {
             model.getBalances(address: wallet.address)
             model.getTransactions(address: wallet.address)
             model.getPortfolioHistory(address: wallet.address)
-        
+            
         }
         .navigationTitle("钱包详情")
     }
     
-    @ViewBuilder
-    func headerView() -> some View {
-        Text(wallet.name)
-            .font(.title2)
-            .bold()
-        
-        HStack {
-            Text(wallet.address)
-                .font(.subheadline)
-                .foregroundStyle(Color(.gray))
-                
-            Button(action: {
-                UIPasteboard.general.string = wallet.address
-                isShowPasteSuss = true
-            }) {
-                Image(systemName: "doc.on.doc")
-            }
-        }
-        
-    }
-    
-    // 所有资产
-    @ViewBuilder
-    func allAssetsView(model: ChainData<TokenBalance>) -> some View {
-        ForEach(model.items) { token in
-            HStack {
-                VStack(alignment: .leading) {
-                    Text(token.contract_display_name ?? token.contract_ticker_symbol ?? "未知")
-                        .font(.headline)
-                    Text(token.displayTokenBalance)
-                        .font(.subheadline)
-                        .foregroundColor(.gray)
-                }
-                Spacer()
-                Text("$\(token.quote ?? 0, specifier: "%.2f")")
-                    .bold()
-            }
-        }
-        
-    }
     
     // 最近交易列表
     @ViewBuilder
@@ -111,7 +72,7 @@ struct WalletDetailView: View {
             
             TransactionRowView(model: transaction, walletAddress: wallet.address, chainId: model.chain_id)
             
-         }
+        }
         
         Divider()
         
@@ -126,10 +87,10 @@ struct WalletDetailView: View {
     }
     
     func shortAddress(_ address: String) -> String {
-            let start = address.prefix(6)
-            let end = address.suffix(4)
-            return "\(start)...\(end)"
-        }
+        let start = address.prefix(6)
+        let end = address.suffix(4)
+        return "\(start)...\(end)"
+    }
 }
 
 #Preview {

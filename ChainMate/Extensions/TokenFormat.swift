@@ -21,3 +21,13 @@ func formatTokenBalance(balance: String, decimals: Int, precision: Int = 6) -> S
     formatter.numberStyle = .decimal
     return formatter.string(for: actual) ?? "0"
 }
+
+
+extension Double {
+    // 显示小数点清理
+    var cleanValue: String {
+        self.truncatingRemainder(dividingBy: 1) == 0 ?
+        String(format: "%.0f", self) :
+        String(format: "%.4f", self)
+    }
+}

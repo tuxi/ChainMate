@@ -101,7 +101,7 @@ class BlockchainAPI {
         }
     }
     
-    // 查询
+    // 查询30天资产历史记录
     func fetchPortfolioHistory(address: String, chain: String = "eth-mainnet", quoteCurrency: String = "USD", days: Int = 30) async throws -> ChainData<ChartPointItem> {
         if isInvalidApiKey {
             throw NSError(domain: "InvalidApiKey", code: 404)

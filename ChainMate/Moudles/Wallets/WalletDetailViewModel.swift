@@ -12,12 +12,18 @@ class WalletDetailViewModel: ObservableObject {
     @Published var transactionsModel: ChainData<TokenTransactionItem>?
     @Published var historyPoints: [ChartPoint]?
     
+    @Published var totalBalance: Double?
+    
     @MainActor
     func getBalances(address: String) {
         Task { @MainActor in
             do {
                 let model = try await BlockchainAPI.shared.fetchTokenBalances(address: address)
                 self.balancesModel = model
+                // 计算总资产
+                self.totalBalance = balancesModel?.items
+                    .compactMap { $0.quote }
+                    .reduce(0, +)
             } catch {
                 print(error)
             }
@@ -45,4 +51,5 @@ class WalletDetailViewModel: ObservableObject {
             }
         }
     }
+    
 }
