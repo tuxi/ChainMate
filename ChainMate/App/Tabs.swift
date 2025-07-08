@@ -11,6 +11,7 @@ import SwiftUI
 enum Tab: Int, Identifiable, Hashable {
     case wallets
     case settings
+    case markets
     
     var id: Int {
         return rawValue
@@ -21,6 +22,8 @@ enum Tab: Int, Identifiable, Hashable {
         switch self {
         case .wallets:
             WalletListView()
+        case .markets:
+            MarketView()
         default:
             SettingsView()
         }
@@ -31,6 +34,8 @@ enum Tab: Int, Identifiable, Hashable {
         switch self {
         case .wallets:
             Label("Wallets", systemImage: "square.stack")
+        case .markets:
+            Label("Markets", systemImage: "square.stack")
         case .settings:
             Label("Swttings", systemImage: "gearshape")
         }

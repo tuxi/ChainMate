@@ -12,6 +12,6 @@ class ContentViewModel: ObservableObject {
     @Published var popToRootTab: Tab = .settings
     
     var availableTabs: [Tab] {
-        return [.wallets, .settings]
+        return [.wallets, .markets, .settings]
     }
 }

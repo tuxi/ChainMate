@@ -27,6 +27,7 @@ struct WalletSummaryView: View {
                         Text("查看代币")
                             .font(.subheadline)
                             .foregroundStyle(.blue)
+                        Spacer()
                     }
                 }
             }

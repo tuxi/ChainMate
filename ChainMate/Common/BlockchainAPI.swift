@@ -131,6 +131,7 @@ class BlockchainAPI {
             }
         }
     }
+
 }
 
 struct ChainResponse<Item: Codable>: Codable {
