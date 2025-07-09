@@ -39,9 +39,16 @@ struct MarketView: View {
                 }
                 .padding(.vertical, 6)
             }
+            .refreshable {
+                vm.fetchMarketData()
+            }
             .navigationTitle("市场行情")
         }
         .onAppear {
+            vm.fetchMarketData()
+        }
+        .onReceive(NotificationCenter.default.publisher(for: UIApplication.willEnterForegroundNotification)) { _ in
+            // App进入前台刷新
             vm.fetchMarketData()
         }
     }
