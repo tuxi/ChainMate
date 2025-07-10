@@ -10,23 +10,20 @@ import Alamofire
 
 class BlockchainAPI {
     static let shared = BlockchainAPI()
-    private var apiKey: String = ""
+    private var apiConf: ApiConf!
     
-    // 是不是无效的apiKey
-    var isInvalidApiKey: Bool {
-        guard let apiKeyPath = Bundle.main.path(forResource: "api", ofType: "key") else {
-            return true
+    init() {
+        guard let apiKeyPath = Bundle.main.path(forResource: "configs", ofType: "json") else {
+            return
         }
         do {
-            var text = try String(contentsOf: URL(filePath: apiKeyPath), encoding: .utf8)
-            if text.hasSuffix("\n") {
-                text.removeLast()
-            }
-            self.apiKey = text
-            return false
+            let data = try Data(contentsOf: URL(filePath: apiKeyPath))
+            
+            let apiConf = try JSONDecoder().decode(ApiConf.self, from: data)
+            
+            self.apiConf = apiConf
         } catch {
             print("Load apiKey error: \(error.localizedDescription)")
-            return true
         }
     }
     
@@ -38,17 +35,15 @@ class BlockchainAPI {
     ///   - quoteCurrency: 要转换的货币。支持USD, CAD, EUR, SGD, INR, JPY, VND, CNY, KRW, RUB, TRY, NGN, ARS, AUD, CHF, and GBP.
     ///   - Returns: 返回一组TokenBalance
     func fetchTokenBalances(address: String, chain: String = "eth-mainnet", quoteCurrency: String = "USD") async throws -> ChainData<TokenBalance> {
-        if isInvalidApiKey {
-            throw NSError(domain: "InvalidApiKey", code: 404)
-        }
+      
         let walletAddress = address
         
         let urlStr = "https://api.covalenthq.com/v1/eth-mainnet/address/\(walletAddress)/balances_v2/"
-        let headers: HTTPHeaders = [.authorization(bearerToken: apiKey)]
+        let headers: HTTPHeaders = [.authorization(bearerToken: apiConf.covalenthq)]
         let requst = AF.request(urlStr,
                                 method: .get,
                                 parameters: [
-                                    "key": apiKey,
+                                    "key": apiConf.covalenthq,
                                     "quote-currency": quoteCurrency,
                                     "page-size": 5
                                 ], headers: headers)
@@ -70,18 +65,14 @@ class BlockchainAPI {
     
     // 查询代币转移记录
     func fetchTransactions(address: String, chain: String = "eth-mainnet", quoteCurrency: String = "USD", pageNumber: Int = 1, pageSize: Int = 20) async throws -> ChainData<TokenTransactionItem> {
-        if isInvalidApiKey {
-            throw NSError(domain: "InvalidApiKey", code: 404)
-        }
-        
         let walletAddress = address
     
         let urlStr = "https://api.covalenthq.com/v1/\(chain)/address/\(walletAddress)/transactions_v2/"
-        let headers: HTTPHeaders = [.authorization(bearerToken: apiKey)]
+        let headers: HTTPHeaders = [.authorization(bearerToken: apiConf.covalenthq)]
         let requst = AF.request(urlStr,
                                 method: .get,
                                 parameters: [
-                                    "key": apiKey,
+                                    "key": apiConf.covalenthq,
                                     "quote-currency": quoteCurrency,
                                     "page-size": pageSize,
                                     "page-number": pageNumber
@@ -103,18 +94,15 @@ class BlockchainAPI {
     
     // 查询30天资产历史记录
     func fetchPortfolioHistory(address: String, chain: String = "eth-mainnet", quoteCurrency: String = "USD", days: Int = 30) async throws -> ChainData<ChartPointItem> {
-        if isInvalidApiKey {
-            throw NSError(domain: "InvalidApiKey", code: 404)
-        }
         
         let walletAddress = address
     
         let urlStr = "https://api.covalenthq.com/v1/\(chain)/address/\(walletAddress)/portfolio_v2/"
-        let headers: HTTPHeaders = [.authorization(bearerToken: apiKey)]
+        let headers: HTTPHeaders = [.authorization(bearerToken: apiConf.covalenthq)]
         let requst = AF.request(urlStr,
                                 method: .get,
                                 parameters: [
-                                    "key": apiKey,
+                                    "key": apiConf.covalenthq,
                                     "quote-currency": quoteCurrency,
                                     "days": days
                                 ], headers: headers)
@@ -303,4 +291,9 @@ struct ChartPointItemHoldings: Codable {
             }
         }
     }
+}
+
+struct ApiConf: Decodable {
+    let covalenthq: String
+    let coingecko: String
 }

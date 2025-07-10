@@ -19,34 +19,44 @@ import SwiftUI
 
 struct MarketDetailView: View {
     
-    
-    @StateObject var vm = MarketDetailViewModel(coin: CoinPlaceholder.coin)
+    let coin: MarketCoin
+    @StateObject var vm = MarketDetailViewModel()
     
     var body: some View {
         ScrollView {
             VStack(spacing: 20) {
-                // 头部信息
-                MarketDetailHeaderView(coin: vm.coin)
-                
-                // 价格图表📈
-                MarketDetailPriceChartView()
-                
-                // 核心数据
-                MarketDetailKeyStatsView()
-                
-                // 简介
-                MarketDetailAboutView(showFull: $vm.showFullDescription)
-                
-                // 外链
-                MarketDetailLinksView()
+                if let detail = vm.detail {
+                    // 头部信息
+                    MarketDetailHeaderView(coin: coin)
+                    
+                    // 价格图表📈
+                    MarketDetailPriceChartView()
+                    
+                    // 核心数据
+                    MarketDetailKeyStatsView()
+                    
+                    // 简介
+                    MarketDetailAboutView(showFull: $vm.showFullDescription)
+                    
+                    // 外链
+                    MarketDetailLinksView()
+                } else if vm.isLoading {
+                    ProgressView("加载中...")
+                } else if let errorMessage = vm.errorMessage {
+                    Text(errorMessage)
+                        .foregroundStyle(.red)
+                }
             }
             .padding()
         }
-        .navigationTitle(vm.coin.name ?? "")
+        .navigationTitle(coin.name ?? "")
         .navigationBarTitleDisplayMode(.inline)
+        .onAppear {
+            vm.fetchDetail(for: coin.id ?? "")
+        }
     }
 }
 
 #Preview {
-    MarketDetailView()
+    MarketDetailView(coin: CoinPlaceholder.coin)
 }

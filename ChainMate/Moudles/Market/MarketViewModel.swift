@@ -26,9 +26,9 @@ class MarketViewModel: ObservableObject {
         currentRequest?.cancel()
     }
     
-    // 自动刷新机制 30秒刷新一次最新市场行情
+    // 自动刷新机制 50秒刷新一次最新市场行情
     func startAutoRefresh() {
-        timer = Timer.scheduledTimer(withTimeInterval: 30, repeats: true, block: { [weak self] timer in
+        timer = Timer.scheduledTimer(withTimeInterval: 50, repeats: true, block: { [weak self] timer in
             Task { @MainActor [weak self] in
                 self?.fetchMarketData()
             }
@@ -38,7 +38,7 @@ class MarketViewModel: ObservableObject {
     // Top市场行情
     func fetchMarketData() {
         
-        // 取消之前的请求,防止重复请求
+        // 防止重复请求
         guard !isLoading else {
             return
         }
