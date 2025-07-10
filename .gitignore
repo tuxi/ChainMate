@@ -94,4 +94,4 @@ iOSInjectionProject/
 .DS_Store
 .idea
 
-ChainMate/Resources/api_key
+ChainMate/Resources/configs.json
