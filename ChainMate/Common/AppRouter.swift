@@ -15,6 +15,8 @@ extension View {
                 WalletDetailView(wallet: wallet)
             case .transactionList(let walletAddress, let chainId):
                 TransactionListView(walletAddress: walletAddress, chainId: chainId)
+            case .marketDetail(let coin):
+                MarketDetailView()
             }
         }
     }

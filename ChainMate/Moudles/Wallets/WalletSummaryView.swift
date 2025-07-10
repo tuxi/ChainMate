@@ -20,6 +20,7 @@ struct WalletSummaryView: View {
                 Text("$\(totalValueUSD, specifier: "%.2f")")
                     .font(.system(size: 32, weight: .bold))
                     .foregroundColor(.primary)
+                    
                 if showTokens == false {
                     Button {
                         showTokens = true

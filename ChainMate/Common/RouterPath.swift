@@ -37,5 +37,7 @@ extension RouterPath {
         case walletDetail(Wallet)
         // 所有转移记录
         case transactionList(walletAddress: String, chainId: Int)
+        // 行情详情
+        case marketDetail(MarketCoin)
     }
 }
