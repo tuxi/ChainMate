@@ -30,7 +30,7 @@ struct MarketDetailView: View {
                     MarketDetailHeaderView(coin: coin)
                     
                     // 价格图表📈
-                    MarketDetailPriceChartView()
+                    MarketDetailPriceChartView(coinId: coin.id ?? "")
                     
                     // 核心数据
                     MarketDetailKeyStatsView()
