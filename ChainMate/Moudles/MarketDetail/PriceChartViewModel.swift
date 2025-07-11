@@ -18,6 +18,7 @@ class PriceChartViewModel: ObservableObject {
     
     @Published var period: Int = 7
 
+    // 图表的内容来源，CoinGecko 的历史价格接口
     func fetchPriceHistory(for coinId: String) {
         let urlStr = "https://api.coingecko.com/api/v3/coins/\(coinId)/market_chart?vs_currency=usd&days=\(period)"
         guard let url = URL(string: urlStr) else { return }

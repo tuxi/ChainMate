@@ -16,6 +16,8 @@ struct CoinDetail: Decodable {
     var market_data: MarketData?
     var links: CoinLinks?
     var hashing_algorithm: String?
+    // 创世时间
+    var genesis_date: String?
 
     struct Description: Decodable {
         var en: String?
@@ -28,13 +30,13 @@ struct CoinDetail: Decodable {
     }
 
     struct MarketData: Decodable {
-        let currentPrice: [String: Double]
-        let marketCap: [String: Double]
-        let totalVolume: [String: Double]
+        let currentPrice: Meta
+        let marketCap: Meta
+        let totalVolume: Meta
         let circulatingSupply: Double?
         let totalSupply: Double?
         let marketCapRank: Int?
-        let ath: [String: Double]?
+        let ath: Meta?
 
         enum CodingKeys: String, CodingKey {
             case currentPrice = "current_price"
@@ -45,6 +47,10 @@ struct CoinDetail: Decodable {
             case marketCapRank = "market_cap_rank"
             case ath
         }
+        
+        struct Meta: Decodable {
+            let usd: Double
+        }
     }
 
     struct CoinLinks: Decodable {
@@ -53,12 +59,20 @@ struct CoinDetail: Decodable {
         var whitepaper: String?
         var blockchainSite: [String]?
         var reposUrl: ReposUrl?
+        var officialForumUrl: [String]?
+        var twitterScreenName: String?
+        var facebookUsername: String?
+        var subredditUrl: String?
 
         enum CodingKeys: String, CodingKey {
             case homepage
             case whitepaper
             case blockchainSite = "blockchain_site"
             case reposUrl = "repos_url"
+            case officialForumUrl = "official_forum_url"
+            case twitterScreenName = "twitter_screen_name"
+            case facebookUsername = "facebook_username"
+            case subredditUrl = "subreddit_url"
         }
 
         struct ReposUrl: Decodable {

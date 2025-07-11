@@ -8,6 +8,7 @@
 import DGCharts
 import UIKit
 
+// 长按 marker 显示价格的标记
 class BalloonMarker: MarkerImage {
     private var color: UIColor
     private var font: UIFont

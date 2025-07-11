@@ -33,13 +33,13 @@ struct MarketDetailView: View {
                     MarketDetailPriceChartView(coinId: coin.id ?? "")
                     
                     // 核心数据
-                    MarketDetailKeyStatsView()
+                    MarketDetailKeyStatsView(info: detail)
                     
                     // 简介
-                    MarketDetailAboutView(showFull: $vm.showFullDescription)
+                    MarketDetailAboutView(info: detail, showFull: $vm.showFullDescription)
                     
                     // 外链
-                    MarketDetailLinksView()
+                    MarketDetailLinksView(info: detail)
                 } else if vm.isLoading {
                     ProgressView("加载中...")
                 } else if let errorMessage = vm.errorMessage {
@@ -56,6 +56,8 @@ struct MarketDetailView: View {
         }
     }
 }
+
+
 
 #Preview {
     MarketDetailView(coin: CoinPlaceholder.coin)

@@ -8,7 +8,9 @@
 import SwiftUI
 
 struct MarketDetailAboutView: View {
+    let info: CoinDetail
     @Binding var showFull: Bool
+    
 
     var body: some View {
         
@@ -16,10 +18,12 @@ struct MarketDetailAboutView: View {
             Text("关于")
                 .font(.headline)
 
-            Text(
-                "Bitcoin 是一种去中心化数字货币，由中本聪于 2009 年发布。它允许点对点交易，完全不依赖中介。目前是全球最大的加密资产，具有广泛的市场接受度。"
+            Text((info.description?.en ?? "")
+                .replacingOccurrences(of: "\r\n", with: "\n")
+                .replacingOccurrences(of: "<[^>]+>", with: "", options: .regularExpression)
             )
-            .font(.subheadline)
+            .font(.body)
+            .foregroundStyle(.primary)
             .frame(maxWidth: .infinity, alignment: .leading)
             .lineLimit(showFull ? nil : 3)
 
